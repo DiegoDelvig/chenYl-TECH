@@ -36,16 +36,54 @@ void addAnimal(char *path) {
     exit(1);
   }
 
-  // Crée le nom de fichier (le numéro d'identification de l'animal + .txt)
-  char fileName[16] = ".txt";
-  snprintf(fileName, sizeof(fileName), "%d%s", numId, ".txt");
-  if (fileName == NULL) {
-    exit(1);
-  }
+
 
 }
 
-int main(int argc, char *argv) {
-  addAnimal(PATH);
+void searchByLigne(char *path, int line, char *c) {
+  DIR *dir = opendir(path); // Ouvre le répertoire
+ 
+  if (dir == NULL) {
+	  exit(1);
+  }
+
+  struct dirent* entity; // Structure pour lire les entrées du dossier
+  entity = readdir(dir); // Lit l'entrée suivante
+  entity = readdir(dir); // Lit l'entrée suivante
+  entity = readdir(dir); // Lit l'entrée suivante
+
+  
+  // Parcourt toutes les entrées du répertoire
+  while (entity != NULL) {
+
+
+    printf("%s \n", entity->d_name);
+    entity = readdir(dir); // Lit l'entrée suivante
+
+  }
+
+   closedir(dir); // Ferme le répertoire
+}
+
+void searchAnimals(char *path) {
+
+  // AJOUTER SECURITER 
+  int ctx;
+  printf("Avec quelle caractèristique veut tu rechercher: \n 1.nom \n 2. espèce 3. Type d'âge\n (1?/2?/3?)");
+  scanf("%d", &ctx);
+
+  if (ctx == 1) {
+    char nom[10];
+    printf("Nom de l'animal recherché :");
+    scanf("%s", nom);
+    searchByLigne(path, 2, nom);
+  }
+
+
+}
+
+int main(int argc, char *argv[]) {
+  searchAnimals(PATH);
+  
   return 0;
 }
