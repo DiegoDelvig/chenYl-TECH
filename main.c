@@ -1,89 +1,58 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <dirent.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define PATH "animals/"
+#define DIRPATH "animals/"
 
-int countFiles(char *path) {
-  int dirCount = 0;
-  DIR *dir = opendir(path); // Ouvre le répertoire
- 
-  if (dir == NULL) {
-	  exit(1);
-  }
 
-  struct dirent* entity; // Structure pour lire les entrées du dossier
-  entity = readdir(dir);
-  
-  // Parcourt toutes les entrées du répertoire
-  while (entity != NULL) {
-    dirCount++;
-    entity = readdir(dir); // Lit l'entrée suivante
-  }
+void readTextFile(char *filePath) 
+{
+    FILE *file = fopen(filePath, "r");
+    if (file == NULL) 
+    {
+        printf("Erreur lors de l'ouverture du fichier\n");
+        return;
+    }
 
-   closedir(dir); // Ferme le répertoire
-  
-  // Retourne le total moins 2 (pour exclure . et ..)
-  return dirCount - 2;
+    char line[1024]; // Buffer pour lire les lignes
+    printf("Contenu du fichier %s :\n", filePath);
+    while (fgets(line, sizeof(line), file)) 
+    {
+        printf("%s", line); // Affiche chaque ligne
+    }
+    printf("\n");
+    fclose(file);
 }
 
-void addAnimal(char *path) {
-  int numId = countFiles(path) + 1; 
+void processDirectory(char *dirPath)
+{
+    struct dirent *entry;
+    DIR *dir = opendir(dirPath);
 
-  // Vérifie si le nombre d'animaux dépasse la limite
-  if (numId >= 50) {
-    printf("Le refuge est plein.\n");
-    exit(1);
-  }
-
-
-
-}
-
-void searchByLigne(char *path, int line, char *c) {
-  DIR *dir = opendir(path); // Ouvre le répertoire
- 
-  if (dir == NULL) {
-	  exit(1);
-  }
-
-  struct dirent* entity; // Structure pour lire les entrées du dossier
-  entity = readdir(dir); // Lit l'entrée suivante
-  entity = readdir(dir); // Lit l'entrée suivante
-  entity = readdir(dir); // Lit l'entrée suivante
-
-  
-  // Parcourt toutes les entrées du répertoire
-  while (entity != NULL) {
+    if (dir == NULL)
+    {
+	printf("Erreur lors de l'ouvertur du dossier\n");
+	return;
+    }
 
 
-    printf("%s \n", entity->d_name);
-    entity = readdir(dir); // Lit l'entrée suivante
-
-  }
-
-   closedir(dir); // Ferme le répertoire
-}
-
-void searchAnimals(char *path) {
-
-  // AJOUTER SECURITER 
-  int ctx;
-  printf("Avec quelle caractèristique veut tu rechercher: \n 1.nom \n 2. espèce 3. Type d'âge\n (1?/2?/3?)");
-  scanf("%d", &ctx);
-
-  if (ctx == 1) {
-    char nom[10];
-    printf("Nom de l'animal recherché :");
-    scanf("%s", nom);
-    searchByLigne(path, 2, nom);
-  }
-
+    while ((entry = readdir(dir)) != NULL)
+    {
+	// Ignore les entrées spéciale "." et ".."
+	if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+	    continue;
+	
+	char filePath[256]; // Buffer large enough for the path
+	snprintf(filePath, sizeof(filePath), "%s%s", dirPath, entry->d_name);
+	
+	readTextFile(filePath);
+    }
 
 }
 
-int main(int argc, char *argv[]) {
-  searchAnimals(PATH);
-  
-  return 0;
+int main()
+{
+    processDirectory(DIRPATH);
+    return 0;
 }
