@@ -1,31 +1,50 @@
 #include <stdio.h>
-#include <dirent.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include <string.h>
 
 #define DIRPATH "animals/"
 
+typedef struct {
+    int id;
+    char name[256];
+    char specie[256];
+    int birth;
+    float weight;
+    char comment[256];
+} Animal;
 
-void readTextFile(char *filePath) 
+void printArr(char arr[][50], int n)
 {
-    FILE *file = fopen(filePath, "r");
-    if (file == NULL) 
+    for (int i = 0; i < n; i++)
     {
-        printf("Erreur lors de l'ouverture du fichier\n");
-        return;
+	printf("%s \n", arr[i]);
     }
-
-    char line[1024]; // Buffer pour lire les lignes
-    printf("Contenu du fichier %s :\n", filePath);
-    while (fgets(line, sizeof(line), file)) 
-    {
-        printf("%s", line); // Affiche chaque ligne
-    }
-    printf("\n");
-    fclose(file);
 }
 
-void processDirectory(char *dirPath)
+void getLine(char *filePath, int lineNumber, char *line)
+{
+   int countLine = 1;
+
+   FILE *file = fopen(filePath, "r");
+   if (file == NULL)
+   {
+       printf("Erreur lors de l'ouverture du fichier\n");
+       return;
+   }
+
+   while (fgets(line, sizeof(line), file))
+   {
+       if (countLine == lineNumber)
+       {
+	   break;
+       }
+       countLine++;
+   }
+   fclose(file);
+}
+
+void searchByLineInEachFile(char *dirPath, int lineNumber, char *input)
 {
     struct dirent *entry;
     DIR *dir = opendir(dirPath);
@@ -36,23 +55,58 @@ void processDirectory(char *dirPath)
 	return;
     }
 
-
+    int count = 0;
+    int matches = 0;
     while ((entry = readdir(dir)) != NULL)
     {
 	// Ignore les entrées spéciale "." et ".."
 	if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
 	    continue;
 	
-	char filePath[256]; // Buffer large enough for the path
+	char line[256];
+	char filePath[256];
 	snprintf(filePath, sizeof(filePath), "%s%s", dirPath, entry->d_name);
 	
-	readTextFile(filePath);
+	// Suprimme le "\n" de line
+	getLine(filePath, lineNumber, line);
+	int len = strlen(line);
+	if (len > 0 && line[len - 1] == '\n') 
+	    line[len - 1] = '\0';
+
+	if (strcmp(line, input) == 0)
+	{
+	    printf("Matche trouvé\n");
+	    matches++;
+	}
+	count++;
+    }
+}
+
+void search(char *dirPath)
+{
+
+    int typeSearch;
+    printf("Avec quelle caractèristique veut tu rechercher: \n 1.nom \n 2. espèce 3. Type d'âge\n (1?/2?/3?) ");
+    scanf("%d", &typeSearch);
+
+    Animal searchResult[256][50];
+
+    if (typeSearch == 1) 
+    {
+	char nom[10];
+	printf("Nom : ");
+	scanf("%s", nom);
+
+	int lineNumber = 2;
+	searchByLineInEachFile(dirPath, lineNumber, nom);
     }
 
 }
 
+
+
 int main()
 {
-    processDirectory(DIRPATH);
+    search(DIRPATH); 
     return 0;
 }
