@@ -14,99 +14,124 @@ typedef struct {
     char comment[256];
 } Animal;
 
-void printArr(char arr[][50], int n)
+int countFiles(char *dirPath)
 {
-    for (int i = 0; i < n; i++)
-    {
-	printf("%s \n", arr[i]);
+    int count = 0;
+    struct dirent *entry;
+    DIR *dir = opendir(dirPath);
+
+    if (dir == NULL) {
+        printf("Erreur lors de l'ouverture du fichier");
+        return 0;
     }
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
+        count++;
+    }
+    closedir(dir);
+    return count;
 }
 
-void getLine(char *filePath, int lineNumber, char *line)
+
+Animal buildAnimal(char *filePath)
 {
-   int countLine = 1;
+    Animal animal;
+    FILE *file = fopen(filePath, "r");
+    if (file == NULL)
+    {
+        printf("Erreur lors de l'ouverture du fichier %s\n", filePath);
+        return animal;
+    }
 
-   FILE *file = fopen(filePath, "r");
-   if (file == NULL)
-   {
-       printf("Erreur lors de l'ouverture du fichier\n");
-       return;
-   }
+    char line[256];
+    fgets(line, sizeof(line), file);
+    
+    // Suprimme le "\n" de line
+	int len = strlen(line);
+	if (len > 0 && line[len - 1] == '\n') 
+	    line[len - 1] = '\0';
 
-   while (fgets(line, sizeof(line), file))
-   {
-       if (countLine == lineNumber)
-       {
-	   break;
-       }
-       countLine++;
-   }
-   fclose(file);
+    animal.id = atoi(line);
+
+    fgets(line, sizeof(line), file);
+    strcpy(animal.name, line);
+
+    fgets(line, sizeof(line), file);
+    strcpy(animal.specie, line);
+
+    fgets(line, sizeof(line), file);
+    // Suprimme le "\n" de line
+	len = strlen(line);
+	if (len > 0 && line[len - 1] == '\n') 
+	    line[len - 1] = '\0';
+
+    animal.birth = atoi(line);
+
+    fgets(line, sizeof(line), file);
+    // Suprimme le "\n" de line
+	len = strlen(line);
+	if (len > 0 && line[len - 1] == '\n') 
+	    line[len - 1] = '\0';
+
+    animal.weight = atof(line);
+
+    fgets(line, sizeof(line), file);
+    strcpy(animal.comment, line);
+    fclose(file);
+    return animal;
 }
 
-void searchByLineInEachFile(char *dirPath, int lineNumber, char *input)
+Animal *getEachAnimals(char *dirPath, Animal *animals)
 {
     struct dirent *entry;
     DIR *dir = opendir(dirPath);
 
     if (dir == NULL)
     {
-	printf("Erreur lors de l'ouvertur du dossier\n");
-	return;
+        printf("Erreur lors de l'ouvertur du dossier\n");
+        return NULL;
     }
-
-    int count = 0;
-    int matches = 0;
+    
+    int i = 0;
     while ((entry = readdir(dir)) != NULL)
     {
-	// Ignore les entrées spéciale "." et ".."
-	if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-	    continue;
+        // Ignore les entrées spéciale "." et ".."
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
 	
-	char line[256];
-	char filePath[256];
-	snprintf(filePath, sizeof(filePath), "%s%s", dirPath, entry->d_name);
-	
-	// Suprimme le "\n" de line
-	getLine(filePath, lineNumber, line);
-	int len = strlen(line);
-	if (len > 0 && line[len - 1] == '\n') 
-	    line[len - 1] = '\0';
-
-	if (strcmp(line, input) == 0)
-	{
-	    printf("Matche trouvé\n");
-	    matches++;
-	}
-	count++;
+        char filePath[256]; // Buffer large enough for the path
+        snprintf(filePath, sizeof(filePath), "%s%s", dirPath, entry->d_name);
+        animals[i] = buildAnimal(filePath);
+        i++;
     }
+    closedir(dir);
+    return animals;
 }
 
-void search(char *dirPath)
+void printAnimal(Animal animal)
 {
-
-    int typeSearch;
-    printf("Avec quelle caractèristique veut tu rechercher: \n 1.nom \n 2. espèce 3. Type d'âge\n (1?/2?/3?) ");
-    scanf("%d", &typeSearch);
-
-    Animal searchResult[256][50];
-
-    if (typeSearch == 1) 
-    {
-	char nom[10];
-	printf("Nom : ");
-	scanf("%s", nom);
-
-	int lineNumber = 2;
-	searchByLineInEachFile(dirPath, lineNumber, nom);
-    }
-
+    printf("%s \n", animal.name);
 }
-
 
 
 int main()
 {
-    search(DIRPATH); 
+    int animalCount = countFiles(DIRPATH);
+    Animal *animals = malloc(animalCount * sizeof(Animal));
+    if (animals == NULL)
+    {
+        printf("Erreur d'allocation de mémoire");
+        return 1;
+    }
+
+    getEachAnimals(DIRPATH, animals);
+
+    for (int i = 0; i < animalCount; i++)
+        printAnimal(animals[i]);
+    
+    free(animals);
     return 0;
 }
