@@ -4,7 +4,7 @@
 #include "animal.h"
 
 int countFiles(char *dirPath);
-void formatLine(char *line);
+void trimWhitespace(char *str);
 void printAnimal(Animal animal);
 
 #endif

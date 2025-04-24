@@ -12,16 +12,43 @@ Différent type de recherche possible:
 3. Le type d'age: rechercher un aimal jeune (< 2 ans), ou sénior (> 10 ans)
 */
 
-void searchByName(Animal *animals, Animal *searchResult, int animalCount, char *name)
+
+Animal *searchByName(Animal *animals, int animalCount, int *resultCount, char *name)
 {
     int count = 0;
+
+    // Compte les correspondaces.
+    for (int i = 0; i < animalCount; i++)
+    {
+	trimWhitespace(animals[i].name);
+	if (strcmp(animals[i].name, name) == 0)
+	    count++;
+    }
+
+    if (count == 0)
+    {
+	resultCount = 0;
+	return NULL;
+    }
+
+    // Allouer dynamiquement la mémoire du tableau
+    Animal *searchResult = malloc(count * sizeof(Animal));
+    if (searchResult == NULL)
+    {
+	printf("Erreur d'allocation mémoire");
+	return NULL;
+    }
+
+    int n = 0;
     for (int i = 0; i < animalCount; i++)
     {
 	if (strcmp(animals[i].name, name) == 0)
 	{
-	    searchResult[count] = animals[i];
-	    printf("%s\n", animals[i].name);
-	    count++;
+	    searchResult[n] = animals[i];
+	    n++;
 	}
     }
+
+    resultCount = count;
+    return searchResult;
 }

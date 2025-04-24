@@ -19,24 +19,27 @@ Animal buildAnimal(char *filePath)
 
     char line[256];
     fgets(line, sizeof(line), file);
-    formatLine(line);    
+    trimWhitespace(line);
     animal.id = atoi(line);
 
     fgets(line, sizeof(line), file);
+    trimWhitespace(line);
     strcpy(animal.name, line);
 
     fgets(line, sizeof(line), file);
+    trimWhitespace(line);
     strcpy(animal.specie, line);
 
     fgets(line, sizeof(line), file);
-    formatLine(line);    
+    trimWhitespace(line);
     animal.birth = atoi(line);
 
     fgets(line, sizeof(line), file);
-    formatLine(line);    
+    trimWhitespace(line);
     animal.weight = atof(line);
 
     fgets(line, sizeof(line), file);
+    trimWhitespace(line);
     strcpy(animal.comment, line);
     
     fclose(file);

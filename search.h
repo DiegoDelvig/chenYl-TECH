@@ -3,6 +3,6 @@
 
 #include "animal.h"
 
-void searchByName(Animal *animals, Animal *searchResult, int AnimalCount, char *name);
+Animal *searchByName(Animal *animals, int AnimalCount, int *resultCount, char *name);
 
 #endif

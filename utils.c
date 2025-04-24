@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "utils.h"
 #include "animal.h"
@@ -27,11 +28,22 @@ int countFiles(char *dirPath)
     return count;
 }
 
-void formatLine(char *line)
+// Function to trim leading and trailing whitespace
+void trimWhitespace(char *str) 
 {
-    int len = sizeof(line);
-    if (len > 0 && line[len - 1] == '\n')
-	line[len - 1] = '\0';
+    char *end;
+
+    // Trim leading space
+    while (isspace((unsigned char)*str)) str++;
+
+    // Trim trailing space
+    if (*str == 0) return; // All spaces?
+
+    end = str + strlen(str) - 1;
+    while (end > str && isspace((unsigned char)*end)) end--;
+
+    // Null-terminate the string
+    *(end + 1) = '\0';
 }
 
 void printAnimal(Animal animal)
