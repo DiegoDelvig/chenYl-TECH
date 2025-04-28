@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main() {
+    int id;
+    char a[100];
+    FILE *fichier;
+
+    printf("adopter un animal avec son id : ");
+    scanf("%d", &id);
+
+    while (fscanf(fichier, "%d", &id) == 1) {
+
+    
+    if (remove(a) == 0) {
+        printf("Fichier %s supprime\n", a);
+    } else 
+    {
+        printf("Erreur");
+    }
+    }
+    
+    fclose(fichier);
+    
+    return 0;
+}
