@@ -28,21 +28,18 @@ int countFiles(char *dirPath)
     return count;
 }
 
-// Function to trim leading and trailing whitespace
+
 void trimWhitespace(char *str) 
 {
     char *end;
 
-    // Trim leading space
     while (isspace((unsigned char)*str)) str++;
 
-    // Trim trailing space
-    if (*str == 0) return; // All spaces?
+    if (*str == 0) return; 
 
     end = str + strlen(str) - 1;
     while (end > str && isspace((unsigned char)*end)) end--;
 
-    // Null-terminate the string
     *(end + 1) = '\0';
 }
 
@@ -50,7 +47,7 @@ void printAnimal(Animal animal)
 {
     printf("id: %d \n", animal.id);
     printf("name: %s \n", animal.name);
-    printf("specie: %s \n", animal.specie);
+    printf("specie: %s \n", animal.species);
     printf("birth: %d \n", animal.birth);
     printf("weight: %.2f \n", animal.weight);
     printf("comment: %s \n", animal.comment);

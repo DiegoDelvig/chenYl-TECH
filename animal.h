@@ -4,7 +4,7 @@
 typedef struct {
     int id;
     char name[256];
-    char specie[256];
+    char species[256];
     int birth;
     float weight;
     char comment[256];

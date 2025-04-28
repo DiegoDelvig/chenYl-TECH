@@ -28,7 +28,7 @@ Animal buildAnimal(char *filePath)
 
     fgets(line, sizeof(line), file);
     trimWhitespace(line);
-    strcpy(animal.specie, line);
+    strcpy(animal.species, line);
 
     fgets(line, sizeof(line), file);
     trimWhitespace(line);
