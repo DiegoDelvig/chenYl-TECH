@@ -6,31 +6,50 @@
 #include "animal.h"
 #include "utils.h"
 
-Animal addAnimal(char *dirPath)
+
+void addAnimal(char *dirPath)
 {
+    int id = countFiles(dirPath) + 1;
+
     char name[256];
-    printf("Entrez le nom de l'animal\n"); 
-    scanf("%s \n", name);
+    printf("Entrez le nom de l'animal "); 
+    scanf("%s", name);
 
     char species[256];
-    printf("Entrez l'espece de l'animal \n");
-    scanf("%s \n", species);
+    printf("Entrez l'espece de l'animal ");
+    scanf("%s", species);
 
     int birth;
-    printf("Entrez l'année de naissance de l'animal \n");
-    scanf("%d \n", &birth);
+    printf("Entrez l'année de naissance de l'animal ");
+    scanf("%d", &birth);
 
     float weight;
-    printf("Entrez le poid de l'animal \n");
-    scanf("%f \n", &weight);
+    printf("Entrez le poid de l'animal ");
+    scanf("%f", &weight);
 
     char comment[256];
-    printf("Entrez un commentaire sur l'animal \n");
-    scanf("%s \n");
+    printf("Entrez un commentaire sur l'animal ");
+    scanf("%s", comment);
 
-    char filePath[256];
-    snprintf(filePath, sizeof(filePath), "%s/%s.txt", dirPath, name);
+    char filePath[1000];
+    snprintf(filePath, sizeof(filePath), "%s%d%s", dirPath, id, ".txt");
     printf("%s", filePath);
+
+    FILE *file = fopen(filePath, "w");
+    
+    if (file == NULL)
+    {
+	printf("Erreur lors de l'ouverture du fichier \n");
+	return;
+    }
+
+    fprintf(file, "%s\n", name);
+    fprintf(file, "%s\n", species);
+    fprintf(file, "%d\n", birth);
+    fprintf(file, "%f\n", weight);
+    fprintf(file, "%s\n", comment);
+
+    fclose(file);
 }
 
 Animal buildAnimal(char *filePath)

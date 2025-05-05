@@ -10,6 +10,7 @@ typedef struct {
     char comment[256];
 } Animal;
 
+void addAnimal(char *filePath);
 Animal buildAnimal(char *filePath);
 void getEachAnimals(char *dirPath, Animal *animals);
 
