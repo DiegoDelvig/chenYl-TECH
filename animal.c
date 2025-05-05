@@ -6,6 +6,33 @@
 #include "animal.h"
 #include "utils.h"
 
+Animal addAnimal(char *dirPath)
+{
+    char name[256];
+    printf("Entrez le nom de l'animal\n"); 
+    scanf("%s \n", name);
+
+    char species[256];
+    printf("Entrez l'espece de l'animal \n");
+    scanf("%s \n", species);
+
+    int birth;
+    printf("Entrez l'année de naissance de l'animal \n");
+    scanf("%d \n", &birth);
+
+    float weight;
+    printf("Entrez le poid de l'animal \n");
+    scanf("%f \n", &weight);
+
+    char comment[256];
+    printf("Entrez un commentaire sur l'animal \n");
+    scanf("%s \n");
+
+    char filePath[256];
+    snprintf(filePath, sizeof(filePath), "%s/%s.txt", dirPath, name);
+    printf("%s", filePath);
+}
+
 Animal buildAnimal(char *filePath)
 {
     Animal animal;

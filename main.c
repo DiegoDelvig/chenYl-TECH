@@ -18,22 +18,28 @@
 
 int main()
 {
-	int animalCount = countFiles(DIRPATH);
-	Animal *animals = malloc(animalCount * sizeof(Animal));
-	if (animals == NULL)
-	{
-		printf("Erreur d'allocation mémoire");
-		return 1;
-	}
-	int ageType;
-	scanf("%d", &ageType);
-	int resultCount;
-	int *presultCount = &resultCount;
-	Animal *searchResult = searchByAge(animals, animalCount, resultCount, ageType);
+    /*
+    int animalCount = countFiles(DIRPATH);
+    Animal *animals = malloc(animalCount * sizeof(Animal));
+    if (animals == NULL)
+    {
+	printf("Erreur d'allocation mémoire");
+	return 1;
+    }
+    getEachAnimals(DIRPATH, animals);
+    int resultCount;
+    int *presultCount = &resultCount;
+    Animal *searchResult = searchByAge(animals, animalCount, presultCount, 2);
 
-	for (int i = 0; i < resultCount; i++)
-		printAnimal(searchResult[i]);
-	free(searchResult);
-	free(animals);
-	return 0;
+    printf("%d \n", resultCount);
+    for (int i = 0; i <= resultCount; i++)
+	printAnimal(searchResult[i]);
+
+    free(searchResult);
+    free(animals);
+    */
+
+    addAnimal(DIRPATH);
+
+    return 0;
 }
