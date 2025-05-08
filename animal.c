@@ -6,51 +6,87 @@
 #include "animal.h"
 #include "utils.h"
 
-
-void addAnimal(char *dirPath)
+int removeAnimal(char *dirPath, Animal **panimals, int animalCount)
 {
-    int id = countFiles(dirPath) + 1;
+    int id;
+    printf("Entrez l'id de l'animal à supprimer: ");
+    scanf("%d", &id);
 
+    char filePath[1024];
+    snprintf(filePath, sizeof(filePath), "%s%d.txt", dirPath, id);
+    
+    if (remove(filePath) == 0)
+    {
+        printf("Fichier supprimé avec succès.\n");
+    }
+    else
+    {
+        printf("Erreur lors de la suppression du fichier.\n");
+        return animalCount;
+    }
+
+    // Libéré la mémoire
+    if (*panimals == NULL)
+    {
+        free(*panimals);
+        *panimals = NULL;
+    }
+
+    *panimals = getEachAnimals(dirPath, animalCount - 1);
+
+    return animalCount - 1; // Retourne la nouvelle taille
+}
+
+int addAnimal(char *dirPath, Animal **panimals, int animalCount)
+{
+    int id = getMaxId(*panimals, animalCount) + 1;
+    printf("id: %d \n", id);
     char name[256];
-    printf("Entrez le nom de l'animal "); 
+    printf("Entrez le nom: ");
     scanf("%s", name);
 
     char species[256];
-    printf("Entrez l'espece de l'animal ");
+    printf("Entrez l'èspece: ");
     scanf("%s", species);
 
     int birth;
-    printf("Entrez l'année de naissance de l'animal ");
+    printf("Entrez l'année de naissance: ");
     scanf("%d", &birth);
-
+    
     float weight;
-    printf("Entrez le poid de l'animal ");
+    printf("Entrez le poid: ");
     scanf("%f", &weight);
 
     char comment[256];
-    printf("Entrez un commentaire sur l'animal ");
+    printf("Entrez le commentaire: ");
     scanf("%s", comment);
 
-    char filePath[1000];
-    snprintf(filePath, sizeof(filePath), "%s%d%s", dirPath, id, ".txt");
-    printf("%s", filePath);
-
-    FILE *file = fopen(filePath, "w");
+    char filePath[1024];
+    snprintf(filePath, sizeof(filePath), "%s/%d.txt", dirPath, id);
     
-    if (file == NULL)
+    FILE *file = fopen(filePath, "w");
+    if (file) {
+        fprintf(file, "%d\n", id);
+        fprintf(file, "%s\n", name);
+        fprintf(file, "%s\n", species);
+        fprintf(file, "%d\n", birth);
+        fprintf(file, "%f\n", weight);
+        fprintf(file, "%s", comment);
+        fclose(file);
+    }
+    
+    // Libéré la mémoire
+    if (*panimals == NULL)
     {
-	printf("Erreur lors de l'ouverture du fichier \n");
-	return;
+        free(*panimals);
+        *panimals = NULL;
     }
 
-    fprintf(file, "%s\n", name);
-    fprintf(file, "%s\n", species);
-    fprintf(file, "%d\n", birth);
-    fprintf(file, "%f\n", weight);
-    fprintf(file, "%s\n", comment);
+    *panimals = getEachAnimals(dirPath, animalCount + 1);
 
-    fclose(file);
+    return animalCount + 1; // Retourne la nouvelle taille
 }
+
 
 Animal buildAnimal(char *filePath)
 {
@@ -93,15 +129,22 @@ Animal buildAnimal(char *filePath)
 
 }
 
-void getEachAnimals(char *dirPath, Animal *animals)
+Animal *getEachAnimals(char *dirPath, int animalCount)
 {
+    Animal *animals = malloc(animalCount * sizeof(Animal));
+    if (animals == NULL)
+    {
+	printf("Erreur d'allocation mémoire");
+	return NULL;
+    }
+
     struct dirent *entry;
     DIR *dir = opendir(dirPath);
 
     if (dir == NULL)
     {
 	printf("Erreur lors de l'ouverture du dossier: %s \n", dirPath);
-	return;
+	return NULL;
     }
 
     int i = 0;
@@ -117,6 +160,7 @@ void getEachAnimals(char *dirPath, Animal *animals)
 	i++;
     }
     closedir(dir);
+    return animals;
 }
     
 

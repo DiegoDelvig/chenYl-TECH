@@ -6,6 +6,27 @@
 #include "utils.h"
 #include "animal.h"
 
+void printAnimals(Animal *animals, int animalCount)
+{
+    for (int i = 0; i < animalCount; i++)
+    {
+	printAnimal(animals[i]);
+	printf("\n"); 
+    }
+}
+
+int getMaxId(Animal *animals, int animalCount)
+{
+    int id = 0;
+
+    for (int i = 0; i < animalCount; i++)
+    {
+	if (animals[i].id > id)
+	    id = animals[i].id;
+    }
+    return id;
+}
+
 int countFiles(char *dirPath)
 {
     int count = 0;

@@ -10,8 +10,10 @@ typedef struct {
     char comment[256];
 } Animal;
 
-void addAnimal(char *filePath);
+
+int removeAnimal(char *dirPath, Animal **animals, int animalCount);
+int addAnimal(char *dirPath, Animal **animals, int animalCount);
 Animal buildAnimal(char *filePath);
-void getEachAnimals(char *dirPath, Animal *animals);
+Animal *getEachAnimals(char *dirPath, int animalCount);
 
 #endif

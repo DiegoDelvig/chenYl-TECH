@@ -3,6 +3,8 @@
 
 #include "animal.h"
 
+void printAnimals(Animal *animals, int animalCount);
+int getMaxId(Animal *animals, int animalCount);
 int countFiles(char *dirPath);
 void trimWhitespace(char *str);
 void printAnimal(Animal animal);

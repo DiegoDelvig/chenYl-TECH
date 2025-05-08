@@ -15,31 +15,27 @@
  * DAY_CLEAN
  */
 
+void INV_AGE_ASC(Animal *animals, int animalCount)
+{
+    printf("Nombre total d'animaux! %d\n", animalCount);
+    int resultCount;
+    int *presultCount = &resultCount;
+    Animal *searchResult = searchByAge(animals, animalCount, presultCount, 1);
+    
+    free(searchResult);
+
+}
+
 
 int main()
 {
-    /*
     int animalCount = countFiles(DIRPATH);
-    Animal *animals = malloc(animalCount * sizeof(Animal));
-    if (animals == NULL)
-    {
-	printf("Erreur d'allocation mémoire");
-	return 1;
-    }
-    getEachAnimals(DIRPATH, animals);
-    int resultCount;
-    int *presultCount = &resultCount;
-    Animal *searchResult = searchByAge(animals, animalCount, presultCount, 2);
+    Animal *animals = getEachAnimals(DIRPATH, animalCount);
 
-    printf("%d \n", resultCount);
-    for (int i = 0; i <= resultCount; i++)
-	printAnimal(searchResult[i]);
-
-    free(searchResult);
-    free(animals);
-    */
-
-    addAnimal(DIRPATH);
-
+    
+    
+    printAnimals(animals, animalCount);
+    animalCount = removeAnimal(DIRPATH, &animals, animalCount);
+    printAnimals(animals, animalCount);
     return 0;
 }
