@@ -15,30 +15,29 @@
 Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int ageType)
 {
     int count = 0;
-
     // Compte les correspondaces.
     for (int i = 0; i < animalCount; i++)
     {
-	// Jeune
-	if (ageType == 1)
-	{
-	    if (animals[i].age <= 2)
-		count++;
-	}
+        // Jeune
+        if (ageType == 1)
+        {
+            if (animals[i].age <= 2)
+                count++;
+        }
 
-	// Senior
-	if (ageType == 2)
-	{
-	    if (animals[i].age >= 10)
-		count++;
-	}
+        // Senior
+        if (ageType == 2)
+        {
+            if (animals[i].age >= 10)
+                count++;
+        }
     }
 
-
+    printf("Nombre d'animaux trouvés: %d\n", count);
     if (count == 0)
     {
-	presultCount = 0;
-	return NULL;
+        presultCount = 0;
+        return NULL;
     }
 
     // Allouer dynamiquement la mémoire du tableau
@@ -53,23 +52,23 @@ Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int age
     int n = 0;
     for (int i = 0; i < animalCount; i++)
     {
-	// Jeune
-	if (ageType == 1)
-	{
-	    if (animals[i].age <= 2)
-	    {
-		searchResult[n] = animals[i];
-		n++;
+        // Jeune
+        if (ageType == 1)
+        {
+            if (animals[i].age <= 2)
+            {
+                searchResult[n] = animals[i];
+                n++;
+            }
 	    }
-	}
 
-	// Senior
-	if (ageType == 2)
+        // Senior
+        if (ageType == 2)
         {
             if (animals[i].age >= 10)
             {
-            searchResult[n] = animals[i];
-            n++;
+                searchResult[n] = animals[i];
+                n++;
             }
         }
     }
@@ -123,13 +122,13 @@ Animal *searchBySpecies(Animal *animals, int animalCount, int *presultCount, cha
 Animal *searchByName(Animal *animals, int animalCount, int *presultCount, char *name)
 {
     int count = 0;
-
+    strlwr(name);
     // Compte les correspondaces.
     for (int i = 0; i < animalCount; i++)
     {
-	trimWhitespace(animals[i].name);
-	if (strcmp(animals[i].name, name) == 0)
-		count++;
+        trimWhitespace(animals[i].name);
+        if (strcmp(animals[i].name, name) == 0)
+            count++;
     }
 
     if (count == 0)

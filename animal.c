@@ -39,20 +39,24 @@ int removeAnimal(char *dirPath, Animal **panimals, int animalCount)
 
 int addAnimal(char *dirPath, Animal **panimals, int animalCount)
 {
-    int id = getMaxId(*panimals, animalCount) + 1;
+    int id = getId(*panimals, animalCount);
     printf("id: %d \n", id);
     char name[256];
     printf("Entrez le nom: ");
-    scanf("%s", name);
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0'; // Supprime le \n en fin de chaîne
     strlwr(name);
 
     int speciesChoice;
-    printf("Choisissez l'espèce:\n");
-    printf("1. Chien\n");
-    printf("2. Chat\n");
-    printf("3. Hamster\n");
-    printf("4. Autruche\n");
-    scanf("%d", &speciesChoice);
+    do {
+        printf("Choisissez l'espèce:\n");
+        printf("1. Chien\n");
+        printf("2. Chat\n");
+        printf("3. Hamster\n");
+        printf("4. Autruche\n");
+        scanf("%d", &speciesChoice);
+    } while (speciesChoice < 1 || speciesChoice > 4);
+    
     char species[256];
     switch (speciesChoice)
     {
@@ -68,22 +72,36 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
         case 4:
             strcpy(species, "autruche");
             break;
-        default:
-            printf("Choix invalide.\n");
-            return animalCount;
     }
 
     int birthDate;
     printf("Entrez l'année de naissance: ");
-    scanf("%d", &birthDate);
+    scanf("%d", &birthDate);  
+    if (birthDate < 1950 || birthDate > 2025)
+    {
+        do {
+            printf("Choisir une année entre 1950 et 2025: ");
+            scanf("%d", &birthDate);    
+        } while (birthDate < 1950 || birthDate > 2025);
+    }
+
     
     float weight;
-    printf("Entrez le poid: ");
-    scanf("%f", &weight);
+    if (weight < 0.1 || weight > 150.0)
+    {
+        do {
+            printf("Choisir un poid entre 0.1 et 150.0: ");
+            scanf("%f", &weight);    
+        } while (weight < 0.05 || weight > 150.0);
+    }
+
+    // Vider le buffer avant de lire le commentaire
+    getchar();
 
     char comment[256];
     printf("Entrez le commentaire: ");
-    scanf("%s", comment);
+    fgets(comment, sizeof(comment), stdin);
+    comment[strcspn(comment, "\n")] = '\0';
 
     char filePath[1024];
     snprintf(filePath, sizeof(filePath), "%s/%d.txt", dirPath, id);

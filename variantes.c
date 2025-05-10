@@ -75,26 +75,26 @@ void INV_AGE_ASC(Animal *animals, int animalCount)
 void DAY_CLEAN(Animal *animals, int animalCount)
 {
     int minutes = 0; // Temps en minutes
-    for (int i = 0; i <= 50; i++)
+    for (int i = 0; i < 50; i++)
     {
-        if (animalCount >= i)
+        if (animalCount > i)
         {
-            if (animals[i].species == "chat" || animals[i].species == "hamster")
+            if (strcmp(animals[i].species, "chat") == 0 || strcmp(animals[i].species, "hamster") == 0)
             {
                 minutes += 7 * 10 + 20;
             }
-            else if (animals[i].species == "autruche")
+            else if (strcmp(animals[i].species, "autruche") == 0)
             {
                 minutes += 7 * 20 + 45;
             }
-            else if (animals[i].species == "chien")
+            else if (strcmp(animals[i].species, "chien") == 0)
             {
                 minutes += 7 * 5 + 20;
             }
         }
-        else
+        else 
         {
-            minutes += 2;
+            minutes += 2*7;
         }
     }
     printf("Le temps de nettoyage est de %d minutes par semaine.\n", minutes);

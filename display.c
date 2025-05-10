@@ -7,9 +7,20 @@
 #include "search.h"
 #include "variantes.h"
 
+void printLogo()
+{
+    printf("       .__                 _____.___.__          _______________________________   ___ ___  \n");
+    printf("  ____ |  |__   ____   ____\\__  |   |  |         \\__    ___/\\_   _____/\\_   ___ \\ /   |   \\ \n");
+    printf("_/ ___\\|  |  \\_/ __ \\ /    \\/   |   |  |    ______ |    |    |    __)_ /    \\  \\//    ~    \\\n");
+    printf("\\  \\___|   Y  \\  ___/|   |  \\____   |  |__ /_____/ |    |    |        \\\\     \\___\\    Y    /\n");
+    printf(" \\___  >___|  /\\___  >___|  / ______|____/         |____|   /_______  / \\______  /\\___|_  / \n");
+    printf("     \\/     \\/     \\/     \\/\\/                                      \\/         \\/       \\/  \n");
+    printf("  _______________________________________________________________________________________\n");
+}
 
 void menu(char *dirPath)
 { 
+
     int animalCount = countFiles(dirPath);
     Animal *animals = getEachAnimals(dirPath, animalCount);
     if (animals == NULL)
@@ -21,7 +32,7 @@ void menu(char *dirPath)
     while (1)
     {
         clear_screen();
-
+        printLogo();
         printf("Animaux:\n");
         printAnimalsShorted(animals, animalCount);
 
@@ -33,19 +44,17 @@ void menu(char *dirPath)
         printf("5. Temps de nettoyage par semaine\n");
         printf("6. Afficher les animaux triés par âge\n");
         printf("7. Quitter\n");
-        printf("Choisissez une option: ");
+        printf("Choix: ");
         
         int choice;
         scanf("%d", &choice);
+        fgetc(stdin); // Pour vider le buffer
 
         switch (choice)
         {
             case 1:
                 clear_screen();
                 printAnimals(animals, animalCount);
-                printf("Appuyez sur Entrée pour continuer...\n");
-                getchar(); // Pour consommer le '\n' restant dans le buffer
-                getchar(); // Attendre une touche
                 break;
             case 2:
                 clear_screen();
@@ -57,11 +66,7 @@ void menu(char *dirPath)
                     break;
                 }
 
-                animalCount = addAnimal(dirPath, &animals, animalCount);
-
-                printf("Appuyez sur Entrée pour continuer...\n");
-                getchar(); // Pour consommer le '\n' restant dans le buffer
-                getchar(); // Attendre une touche
+                animalCount = addAnimal(dirPath, &animals, animalCount);  
                 break;
             case 3:
                 clear_screen();
@@ -71,10 +76,7 @@ void menu(char *dirPath)
                     printf("Aucun animal à supprimer.\n");
                     break;
                 }
-                animalCount = removeAnimal(dirPath, &animals, animalCount);
-                printf("Appuyez sur Entrée pour continuer...\n");
-                getchar(); // Pour consommer le '\n' restant dans le buffer
-                getchar(); // Attendre une touche   
+                animalCount = removeAnimal(dirPath, &animals, animalCount);  
                 break;
             case 4:
                 clear_screen();
@@ -82,6 +84,7 @@ void menu(char *dirPath)
                 printf("1. Par nom\n");
                 printf("2. Par espèce\n");
                 printf("3. Par type d'âge (<= 2 ans, ou sénior >= 10 ans)\n");
+                printf("Autre chose: Quitter\n");
 
                 int searchChoice;
                 scanf("%d", &searchChoice);
@@ -97,10 +100,12 @@ void menu(char *dirPath)
                     if (result == NULL)
                     {
                         printf("Aucun animal trouvé avec ce nom.\n");
+                        getchar(); // Attendre une touche
                         break;
                     }
                     printAnimals(result, resultCount);
                     free(result); // Libérer la mémoire allouée pour le résultat
+                    getchar(); // Attendre une touche
                 }
                 else if (searchChoice == 2)
                 {
@@ -128,6 +133,7 @@ void menu(char *dirPath)
                             break;
                         default:
                             printf("Choix invalide.\n");
+                            getchar(); // Attendre une touche
                             break;
                     }
                     
@@ -135,12 +141,13 @@ void menu(char *dirPath)
                     Animal *result = searchBySpecies(animals, animalCount, &resultCount, species);
                     if (result == NULL)
                     {
-                        printf("Aucun animal trouvé avec ce nom.\n");
+                        printf("Aucun animal de cette espèce.\n");
+                        getchar(); // Attendre une touche
                         break;
                     }
                     printAnimals(result, resultCount);  
                     free(result); // Libérer la mémoire allouée pour le résultat
-
+                    getchar(); // Attendre une touche
                 }
                 else if (searchChoice == 3)
                 {
@@ -150,42 +157,40 @@ void menu(char *dirPath)
                     printf("2. Senior (>= 10 ans)\n");
                     scanf("%d", &ageType);
 
-                    if (ageType != 1 && ageType != 2)
+                    if (ageType == 1 || ageType == 2)
+                    {
+                        int resultCount;
+                        Animal *result = searchByAge(animals, animalCount, &resultCount, ageType);
+                        if (result == NULL)
+                        {
+                            printf("Aucun animal de ce type d'age.\n");
+                            getchar(); // Attendre une touche
+                            break;
+                        }
+                        printAnimals(result, resultCount);
+                        free(result); // Libérer la mémoire allouée pour le résultat
+                        getchar(); // Attendre une touche
+                    }
+                    else
                     {
                         printf("Choix invalide.\n");
-                        break;
+                        getchar(); // Attendre une touche
                     }
-                    int resultCount;
-                    Animal *result = searchByAge(animals, animalCount, &resultCount, ageType);
-                    if (result == NULL)
-                    {
-                        printf("Aucun animal trouvé avec ce nom.\n");
-                        break;
-                    }
-                    printAnimals(result, resultCount);
-                    free(result); // Libérer la mémoire allouée pour le résultat
+
                 }
                 else
                 {
                     printf("Choix invalide.\n");
+                    getchar(); // Attendre une touche
                 }
-                printf("Appuyez sur Entrée pour continuer...\n");
-                getchar(); // Pour consommer le '\n' restant dans le buffer
-                getchar(); // Attendre une touche
                 break;
             case 5:
                 clear_screen();
                 DAY_CLEAN(animals, animalCount);
-                printf("Appuyez sur Entrée pour continuer...\n");
-                getchar(); // Pour consommer le '\n' restant dans le buffer
-                getchar(); // Attendre une touche
                 break;
             case 6:
                 clear_screen();
                 INV_AGE_ASC(animals, animalCount);
-                printf("Appuyez sur Entrée pour continuer...\n");
-                getchar(); // Pour consommer le '\n' restant dans le buffer
-                getchar(); // Attendre une touche
                 break;
             case 7:
                 clear_screen();
@@ -194,6 +199,8 @@ void menu(char *dirPath)
                 clear_screen();
                 break;
         }
+        printf("Appuyez sur Entrée pour continuer...\n");
+        getchar(); // Attendre une touche
     }
 
 

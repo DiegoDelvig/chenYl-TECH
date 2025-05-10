@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <dirent.h>
 #include <string.h>
 #include <ctype.h>
@@ -78,16 +79,28 @@ void printAnimals(Animal *animals, int animalCount)
     }
 }
 
-int getMaxId(Animal *animals, int animalCount)
+int getId(Animal *animals, int animalCount)
 {
-    int id = 0;
-
-    for (int i = 0; i < animalCount; i++)
+    Animal *sortedAnimals = sortById(animals, animalCount);
+    if (sortedAnimals == NULL)
     {
-	if (animals[i].id > id)
-	    id = animals[i].id;
+        printf("Erreur lors du tri des animaux.\n");
+        return -1;
     }
-    return id;
+
+    if (sortedAnimals[0].id != 1)
+    {
+        return 1;
+    }
+    
+    for (int i = 0; i < animalCount - 1; i++)
+    {
+        if (sortedAnimals[i + 1].id != sortedAnimals[i].id + 1)
+        {
+            return sortedAnimals[i].id + 1;
+        }
+    }
+    return sortedAnimals[animalCount - 1].id + 1;
 }
 
 int countFiles(char *dirPath)
