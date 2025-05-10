@@ -6,6 +6,33 @@
 #include "utils.h"
 #include "animal.h"
 
+char* strlwr(char* str) 
+{
+    for(char *p = str; *p; p++) 
+    {
+        *p = tolower(*p);
+    }
+    return str;
+}
+
+void clear_screen() 
+{
+    #ifdef _WIN32
+        system("cls");    // Windows
+    #else
+        system("clear");  // Linux/macOS
+    #endif
+}
+
+void printAnimalsShorted(Animal *animals, int animalCount)
+{
+    for (int i = 0; i < animalCount; i++)
+    {
+    printf("[%d] | %s \n", animals[i].id, animals[i].name);
+    printf("\n"); 
+    }
+}
+
 void printAnimals(Animal *animals, int animalCount)
 {
     for (int i = 0; i < animalCount; i++)
@@ -69,7 +96,7 @@ void printAnimal(Animal animal)
     printf("id: %d \n", animal.id);
     printf("name: %s \n", animal.name);
     printf("specie: %s \n", animal.species);
-    printf("birth: %d \n", animal.birth);
+    printf("age: %d \n", animal.age);
     printf("weight: %.2f \n", animal.weight);
     printf("comment: %s \n", animal.comment);
 }

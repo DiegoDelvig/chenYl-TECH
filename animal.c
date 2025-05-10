@@ -44,14 +44,38 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
     char name[256];
     printf("Entrez le nom: ");
     scanf("%s", name);
+    strlwr(name);
 
+    int speciesChoice;
+    printf("Choisissez l'espèce:\n");
+    printf("1. Chien\n");
+    printf("2. Chat\n");
+    printf("3. Hamster\n");
+    printf("4. Autruche\n");
+    scanf("%d", &speciesChoice);
     char species[256];
-    printf("Entrez l'èspece: ");
-    scanf("%s", species);
+    switch (speciesChoice)
+    {
+        case 1:
+            strcpy(species, "chien");
+            break;
+        case 2:
+            strcpy(species, "chat");
+            break;
+        case 3:
+            strcpy(species, "hamster");
+            break;
+        case 4:
+            strcpy(species, "autruche");
+            break;
+        default:
+            printf("Choix invalide.\n");
+            return -1;
+    }
 
-    int birth;
+    int birthDate;
     printf("Entrez l'année de naissance: ");
-    scanf("%d", &birth);
+    scanf("%d", &birthDate);
     
     float weight;
     printf("Entrez le poid: ");
@@ -69,7 +93,7 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
         fprintf(file, "%d\n", id);
         fprintf(file, "%s\n", name);
         fprintf(file, "%s\n", species);
-        fprintf(file, "%d\n", birth);
+        fprintf(file, "%d\n", birthDate);
         fprintf(file, "%f\n", weight);
         fprintf(file, "%s", comment);
         fclose(file);
@@ -84,6 +108,7 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
 
     *panimals = getEachAnimals(dirPath, animalCount + 1);
 
+    printf("Animal ajouté avec succès.\n");
     return animalCount + 1; // Retourne la nouvelle taille
 }
 
@@ -114,7 +139,7 @@ Animal buildAnimal(char *filePath)
 
     fgets(line, sizeof(line), file);
     trimWhitespace(line);
-    animal.birth = atoi(line);
+    animal.age = 2025 - atoi(line);
 
     fgets(line, sizeof(line), file);
     trimWhitespace(line);
@@ -150,14 +175,14 @@ Animal *getEachAnimals(char *dirPath, int animalCount)
     int i = 0;
     while ((entry = readdir(dir)) != NULL)
     {
-	// Ignore les entrées spéciale "." et ".."
-	if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-	    continue;
+        // Ignore les entrées spéciale "." et ".."
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
 
-	char filePath[256];
-	snprintf(filePath, sizeof(filePath), "%s%s", dirPath, entry->d_name);
-	animals[i] = buildAnimal(filePath);
-	i++;
+        char filePath[256];
+        snprintf(filePath, sizeof(filePath), "%s%s", dirPath, entry->d_name);
+        animals[i] = buildAnimal(filePath);
+        i++;
     }
     closedir(dir);
     return animals;
