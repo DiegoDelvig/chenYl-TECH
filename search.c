@@ -45,8 +45,8 @@ Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int age
     Animal *searchResult = malloc(count * sizeof(Animal));
     if (searchResult == NULL)
     {
-	printf("Erreur d'allocation mémoire");
-	return NULL;
+        printf("Erreur d'allocation mémoire");
+        return NULL;
     }
 
 
@@ -135,6 +135,7 @@ Animal *searchByName(Animal *animals, int animalCount, int *presultCount, char *
     if (count == 0)
     {
         presultCount = 0;
+        printf("Aucun animal trouvé avec ce nom.\n");
         return NULL;
     }
 

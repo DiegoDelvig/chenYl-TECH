@@ -70,7 +70,7 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
             break;
         default:
             printf("Choix invalide.\n");
-            return -1;
+            return animalCount;
     }
 
     int birthDate;
@@ -89,7 +89,8 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
     snprintf(filePath, sizeof(filePath), "%s/%d.txt", dirPath, id);
     
     FILE *file = fopen(filePath, "w");
-    if (file) {
+    if (file) 
+    {
         fprintf(file, "%d\n", id);
         fprintf(file, "%s\n", name);
         fprintf(file, "%s\n", species);
@@ -120,8 +121,8 @@ Animal buildAnimal(char *filePath)
 
     if (file == NULL)
     {
-	printf("Erreur lors de l'ouverture du fichier %s \n", filePath);
-	return animal;
+        printf("Erreur lors de l'ouverture du fichier %s \n", filePath);
+        return animal;
     }
 
     char line[256];
@@ -159,8 +160,8 @@ Animal *getEachAnimals(char *dirPath, int animalCount)
     Animal *animals = malloc(animalCount * sizeof(Animal));
     if (animals == NULL)
     {
-	printf("Erreur d'allocation mémoire");
-	return NULL;
+        printf("Erreur d'allocation mémoire");
+        return NULL;
     }
 
     struct dirent *entry;
@@ -168,8 +169,8 @@ Animal *getEachAnimals(char *dirPath, int animalCount)
 
     if (dir == NULL)
     {
-	printf("Erreur lors de l'ouverture du dossier: %s \n", dirPath);
-	return NULL;
+        printf("Erreur lors de l'ouverture du dossier: %s \n", dirPath);
+        return NULL;
     }
 
     int i = 0;
@@ -187,10 +188,3 @@ Animal *getEachAnimals(char *dirPath, int animalCount)
     closedir(dir);
     return animals;
 }
-    
-
-
-
-
-
-

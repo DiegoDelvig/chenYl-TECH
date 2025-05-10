@@ -6,6 +6,35 @@
 #include "utils.h"
 #include "animal.h"
 
+Animal *sortById(Animal *animals, int animalCount)
+{
+    Animal *sortedAnimals = malloc(animalCount * sizeof(Animal));
+    if (sortedAnimals == NULL)
+    {
+        printf("Erreur d'allocation mémoire");
+        return NULL;
+    }
+
+    for (int i = 0; i < animalCount; i++)
+    {
+        sortedAnimals[i] = animals[i];
+    }
+
+    for (int i = 0; i < animalCount - 1; i++)
+    {
+        for (int j = 0; j < animalCount - i - 1; j++)
+        {
+            if (sortedAnimals[j].id > sortedAnimals[j + 1].id)
+            {
+                Animal temp = sortedAnimals[j];
+                sortedAnimals[j] = sortedAnimals[j + 1];
+                sortedAnimals[j + 1] = temp;
+            }
+        }
+    }
+    return sortedAnimals;
+}
+
 char* strlwr(char* str) 
 {
     for(char *p = str; *p; p++) 
@@ -26,19 +55,26 @@ void clear_screen()
 
 void printAnimalsShorted(Animal *animals, int animalCount)
 {
+    Animal *sortedAnimals = sortById(animals, animalCount);
+    if (sortedAnimals == NULL)
+    {
+        printf("Erreur lors du tri des animaux.\n");
+        return;
+    }
     for (int i = 0; i < animalCount; i++)
     {
-    printf("[%d] | %s \n", animals[i].id, animals[i].name);
-    printf("\n"); 
+        printf("[%d] | %s \n", sortedAnimals[i].id, sortedAnimals[i].name);
+        printf("\n"); 
     }
 }
 
 void printAnimals(Animal *animals, int animalCount)
 {
+    Animal *sortedAnimals = sortById(animals, animalCount);
     for (int i = 0; i < animalCount; i++)
     {
-	printAnimal(animals[i]);
-	printf("\n"); 
+        printAnimal(sortedAnimals[i]);
+        printf("\n"); 
     }
 }
 
@@ -62,15 +98,15 @@ int countFiles(char *dirPath)
 
     if (dir == NULL)
     {
-	printf("Erreur lors de l'ouverture du fichier");
-	return 0;
+        printf("Erreur lors de l'ouverture du fichier");
+        return 0;
     }
 
     while ((entry = readdir(dir)) != NULL)
     {
-	if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-	    continue;
-	count++;
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
+        count++;
     }
     closedir(dir);
     return count;

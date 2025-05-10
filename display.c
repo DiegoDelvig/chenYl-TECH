@@ -9,9 +9,7 @@
 
 
 void menu(char *dirPath)
-{
-
-    
+{ 
     int animalCount = countFiles(dirPath);
     Animal *animals = getEachAnimals(dirPath, animalCount);
     if (animals == NULL)
@@ -24,13 +22,17 @@ void menu(char *dirPath)
     {
         clear_screen();
 
-        printf("Menu:\n");
-        printf("1. Afficher les animaux\n");
+        printf("Animaux:\n");
+        printAnimalsShorted(animals, animalCount);
+
+        printf("Choisissez une option:\n");
+        printf("1. Afficher les animaux en détaille\n");
         printf("2. Ajouter un animal\n");
         printf("3. Supprimer un animal\n");
         printf("4. Rechercher un animal\n");
         printf("5. Temps de nettoyage par semaine\n");
-        printf("6. Quitter\n");
+        printf("6. Afficher les animaux triés par âge\n");
+        printf("7. Quitter\n");
         printf("Choisissez une option: ");
         
         int choice;
@@ -56,11 +58,7 @@ void menu(char *dirPath)
                 }
 
                 animalCount = addAnimal(dirPath, &animals, animalCount);
-                if (animalCount == -1)
-                {
-                    printf("Erreur lors de l'ajout de l'animal.\n");
-                    break;
-                }
+
                 printf("Appuyez sur Entrée pour continuer...\n");
                 getchar(); // Pour consommer le '\n' restant dans le buffer
                 getchar(); // Attendre une touche
@@ -182,8 +180,14 @@ void menu(char *dirPath)
                 getchar(); // Pour consommer le '\n' restant dans le buffer
                 getchar(); // Attendre une touche
                 break;
-            
             case 6:
+                clear_screen();
+                INV_AGE_ASC(animals, animalCount);
+                printf("Appuyez sur Entrée pour continuer...\n");
+                getchar(); // Pour consommer le '\n' restant dans le buffer
+                getchar(); // Attendre une touche
+                break;
+            case 7:
                 clear_screen();
                 exit(0);
             default:
