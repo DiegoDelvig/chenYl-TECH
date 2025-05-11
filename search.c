@@ -15,17 +15,16 @@
 Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int ageType)
 {
     int count = 0;
-    // Compte les correspondaces.
     for (int i = 0; i < animalCount; i++)
     {
-        // Jeune
+        
         if (ageType == 1)
         {
             if (animals[i].age <= 2)
                 count++;
         }
 
-        // Senior
+        
         if (ageType == 2)
         {
             if (animals[i].age >= 10)
@@ -40,7 +39,6 @@ Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int age
         return NULL;
     }
 
-    // Allouer dynamiquement la mémoire du tableau
     Animal *searchResult = malloc(count * sizeof(Animal));
     if (searchResult == NULL)
     {
@@ -52,7 +50,7 @@ Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int age
     int n = 0;
     for (int i = 0; i < animalCount; i++)
     {
-        // Jeune
+        
         if (ageType == 1)
         {
             if (animals[i].age <= 2)
@@ -62,7 +60,7 @@ Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int age
             }
 	    }
 
-        // Senior
+        
         if (ageType == 2)
         {
             if (animals[i].age >= 10)
@@ -82,7 +80,6 @@ Animal *searchBySpecies(Animal *animals, int animalCount, int *presultCount, cha
 {
     int count = 0;
 
-    // Compte les correspondaces.
     for (int i = 0; i < animalCount; i++)
     {
         trimWhitespace(animals[i].species);
@@ -96,7 +93,6 @@ Animal *searchBySpecies(Animal *animals, int animalCount, int *presultCount, cha
         return NULL;
     }
 
-    // Allouer dynamiquement la mémoire du tableau
     Animal *searchResult = malloc(count * sizeof(Animal));
     if (searchResult == NULL)
     {
@@ -123,7 +119,7 @@ Animal *searchByName(Animal *animals, int animalCount, int *presultCount, char *
 {
     int count = 0;
     strlwr(name);
-    // Compte les correspondaces.
+	
     for (int i = 0; i < animalCount; i++)
     {
         trimWhitespace(animals[i].name);
@@ -138,7 +134,6 @@ Animal *searchByName(Animal *animals, int animalCount, int *presultCount, char *
         return NULL;
     }
 
-    // Allouer dynamiquement la mémoire du tableau
     Animal *searchResult = malloc(count * sizeof(Animal));
     if (searchResult == NULL)
     {
