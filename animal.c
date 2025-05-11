@@ -6,7 +6,7 @@
 #include "animal.h"
 #include "utils.h"
 
-int removeAnimal(char *dirPath, Animal **panimals, int animalCount)
+int removeAnimal(char *dirPath, Animal **panimals, int animalCount) //fonction qui va supprimee un animal
 {
     int id;
     printf("Entrez l'id de l'animal à supprimer: ");
@@ -24,8 +24,7 @@ int removeAnimal(char *dirPath, Animal **panimals, int animalCount)
         printf("Erreur lors de la suppression du fichier.\n");
         return animalCount;
     }
-
-    // Libéré la mémoire
+    
     if (*panimals == NULL)
     {
         free(*panimals);
@@ -34,17 +33,17 @@ int removeAnimal(char *dirPath, Animal **panimals, int animalCount)
 
     *panimals = getEachAnimals(dirPath, animalCount - 1);
 
-    return animalCount - 1; // Retourne la nouvelle taille
+    return animalCount - 1;
 }
 
-int addAnimal(char *dirPath, Animal **panimals, int animalCount)
+int addAnimal(char *dirPath, Animal **panimals, int animalCount) //fonction qui va ajouter un animal
 {
     int id = getId(*panimals, animalCount);
     printf("id: %d \n", id);
     char name[256];
     printf("Entrez le nom: ");
     fgets(name, sizeof(name), stdin);
-    name[strcspn(name, "\n")] = '\0'; // Supprime le \n en fin de chaîne
+    name[strcspn(name, "\n")] = '\0'; //supprime le \n en fin de chaîne
     strlwr(name);
 
     int speciesChoice;
@@ -95,7 +94,7 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
         } while (weight < 0.05 || weight > 150.0);
     }
 
-    // Vider le buffer avant de lire le commentaire
+    //vider le buffer avant de lire le commentaire
     getchar();
 
     char comment[256];
@@ -118,7 +117,7 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
         fclose(file);
     }
     
-    // Libéré la mémoire
+    
     if (*panimals == NULL)
     {
         free(*panimals);
@@ -128,11 +127,11 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
     *panimals = getEachAnimals(dirPath, animalCount + 1);
 
     printf("Animal ajouté avec succès.\n");
-    return animalCount + 1; // Retourne la nouvelle taille
+    return animalCount + 1; 
 }
 
 
-Animal buildAnimal(char *filePath)
+Animal buildAnimal(char *filePath) //construit une structure animal à partir d'un fichier
 {
     Animal animal;
     FILE *file = fopen(filePath, "r");
@@ -146,7 +145,7 @@ Animal buildAnimal(char *filePath)
     char line[256];
     fgets(line, sizeof(line), file);
     trimWhitespace(line);
-    animal.id = atoi(line);
+    animal.id = atoi(line); //conversion en int
 
     fgets(line, sizeof(line), file);
     trimWhitespace(line);
@@ -173,7 +172,7 @@ Animal buildAnimal(char *filePath)
 
 }
 
-Animal *getEachAnimals(char *dirPath, int animalCount)
+Animal *getEachAnimals(char *dirPath, int animalCount) //récupère tous les animaux à partir des fichiers dans le dossier
 {
     Animal *animals = malloc(animalCount * sizeof(Animal));
     if (animals == NULL)
@@ -194,8 +193,7 @@ Animal *getEachAnimals(char *dirPath, int animalCount)
     int i = 0;
     while ((entry = readdir(dir)) != NULL)
     {
-        // Ignore les entrées spéciale "." et ".."
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) //ignore les entrées "." et ".."
             continue;
 
         char filePath[256];
