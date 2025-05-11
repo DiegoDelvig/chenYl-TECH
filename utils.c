@@ -10,7 +10,7 @@
 Animal *sortById(Animal *animals, int animalCount) //trie les animaux par leur id avec l'algorithme de tri à bulles
 {
     Animal *sortedAnimals = malloc(animalCount * sizeof(Animal));
-    if (sortedAnimals == NULL) //l'allocation échoué
+    if (sortedAnimals == NULL)
     {
         printf("Erreur d'allocation mémoire");
         return NULL;
@@ -18,45 +18,45 @@ Animal *sortById(Animal *animals, int animalCount) //trie les animaux par leur i
 
     for (int i = 0; i < animalCount; i++)
     {
-        sortedAnimals[i] = animals[i]; //copie les animaux dans sortedAnimals
+        sortedAnimals[i] = animals[i];
     }
 
-    for (int i = 0; i < animalCount - 1; i++) //trie les animaux par leur id avec l'algorithme de tri à bulles
+    for (int i = 0; i < animalCount - 1; i++) 
     {
         for (int j = 0; j < animalCount - i - 1; j++)
         {
-            if (sortedAnimals[j].id > sortedAnimals[j + 1].id) //compare les animaux 2 à 2
+            if (sortedAnimals[j].id > sortedAnimals[j + 1].id)
             {
-                Animal temp = sortedAnimals[j]; //échange les deux animaux s'ils ne sont pas dans l'ordre
+                Animal temp = sortedAnimals[j]; 
                 sortedAnimals[j] = sortedAnimals[j + 1];
                 sortedAnimals[j + 1] = temp;
             }
         }
     }
-    return sortedAnimals; //retourne le tableau ordonné
+    return sortedAnimals; 
 }
 
 char* strlwr(char* str) //convertit une chaîne de caractères en minuscules
 {
-    for(char *p = str; *p; p++) //parcourt chaque caractère de la chaîne
+    for(char *p = str; *p; p++) 
     {
-        *p = tolower(*p); //convertit le caractère en minuscule
+        *p = tolower(*p);
     }
-    return str; //retourne la chaine convertie
+    return str;
 }
 
 void clear_screen() //efface l'écran en fonction du système d'exploitation
 {
     #ifdef _WIN32
-        system("cls");    // Windows
+        system("cls");    //windows
     #else
-        system("clear");  // Linux/macOS
+        system("clear"); //linux
     #endif
 }
 
 void printAnimalsShorted(Animal *animals, int animalCount) //affiche la liste des animaux triés par id (id et nom)
 {
-    Animal *sortedAnimals = sortById(animals, animalCount); //trie les animaux par id
+    Animal *sortedAnimals = sortById(animals, animalCount); 
     if (sortedAnimals == NULL)
     {
         printf("Erreur lors du tri des animaux.\n");
@@ -81,33 +81,33 @@ void printAnimals(Animal *animals, int animalCount) //affiche tous les animaux
 
 int getId(Animal *animals, int animalCount) //donne un id à un nouvel animal
 {
-    Animal *sortedAnimals = sortById(animals, animalCount); //trie les animaux par id
+    Animal *sortedAnimals = sortById(animals, animalCount); 
     if (sortedAnimals == NULL)
     {
         printf("Erreur lors du tri des animaux.\n");
         return -1;
     }
 
-    if (sortedAnimals[0].id != 1) //si l'id 1 n'est pas utilisé, on l'utilise
+    if (sortedAnimals[0].id != 1) 
     {
         return 1;
     }
     
     for (int i = 0; i < animalCount - 1; i++)
     {
-        if (sortedAnimals[i + 1].id != sortedAnimals[i].id + 1) //s'il y a un id manquant dans la séquence...
+        if (sortedAnimals[i + 1].id != sortedAnimals[i].id + 1) 
         {
-            return sortedAnimals[i].id + 1;  //...on le return
+            return sortedAnimals[i].id + 1;  
         }
     }
-    return sortedAnimals[animalCount - 1].id + 1; //si tous les id sont consécutifs, return l'id suivant
+    return sortedAnimals[animalCount - 1].id + 1; 
 }
 
 int countFiles(char *dirPath) //compte le nombre de fichiers
 {
     int count = 0;
     struct dirent *entry;
-    DIR *dir = opendir(dirPath); //fonction qui permet d'ouvrir le répertoire
+    DIR *dir = opendir(dirPath);
 
     if (dir == NULL)
     {
@@ -115,13 +115,13 @@ int countFiles(char *dirPath) //compte le nombre de fichiers
         return 0;
     }
 
-    while ((entry = readdir(dir)) != NULL) //lit le répertoire
+    while ((entry = readdir(dir)) != NULL) 
     {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
         count++;
     }
-    closedir(dir); //ferme le répertoire
+    closedir(dir); 
     return count;
 }
 
@@ -130,12 +130,12 @@ void trimWhitespace(char *str) //supprime les espaces d'une chaîne de caractèr
 {
     char *end;
 
-    while (isspace((unsigned char)*str)) str++; //ignore les espaces au début de la chaîne
+    while (isspace((unsigned char)*str)) str++; 
 
     if (*str == 0) return; 
 
-    end = str + strlen(str) - 1; //trouve le dernier caractère de la chaîne
-    while (end > str && isspace((unsigned char)*end)) end--; //ignore les espaces à la fin de la chaîne
+    end = str + strlen(str) - 1; 
+    while (end > str && isspace((unsigned char)*end)) end--; 
 
     *(end + 1) = '\0'; 
 }
