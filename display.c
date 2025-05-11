@@ -18,7 +18,7 @@ void printLogo()
     printf("  _______________________________________________________________________________________\n");
 }
 
-void menu(char *dirPath)
+void menu(char *dirPath) //affiche le menu
 { 
 
     int animalCount = countFiles(dirPath);
@@ -29,7 +29,7 @@ void menu(char *dirPath)
         return;
     }
 
-    while (1)
+    while (1) //boucle infini
     {
         clear_screen();
         printLogo();
@@ -48,7 +48,7 @@ void menu(char *dirPath)
         
         int choice;
         scanf("%d", &choice);
-        fgetc(stdin); // Pour vider le buffer
+        fgetc(stdin); //vide le buffer (/n)
 
         switch (choice)
         {
@@ -100,12 +100,12 @@ void menu(char *dirPath)
                     if (result == NULL)
                     {
                         printf("Aucun animal trouvé avec ce nom.\n");
-                        getchar(); // Attendre une touche
+                        getchar(); //attendre une touche
                         break;
                     }
                     printAnimals(result, resultCount);
-                    free(result); // Libérer la mémoire allouée pour le résultat
-                    getchar(); // Attendre une touche
+                    free(result);
+                    getchar(); 
                 }
                 else if (searchChoice == 2)
                 {
@@ -133,7 +133,7 @@ void menu(char *dirPath)
                             break;
                         default:
                             printf("Choix invalide.\n");
-                            getchar(); // Attendre une touche
+                            getchar(); 
                             break;
                     }
                     
@@ -142,12 +142,12 @@ void menu(char *dirPath)
                     if (result == NULL)
                     {
                         printf("Aucun animal de cette espèce.\n");
-                        getchar(); // Attendre une touche
+                        getchar();
                         break;
                     }
                     printAnimals(result, resultCount);  
-                    free(result); // Libérer la mémoire allouée pour le résultat
-                    getchar(); // Attendre une touche
+                    free(result); 
+                    getchar(); 
                 }
                 else if (searchChoice == 3)
                 {
@@ -164,24 +164,24 @@ void menu(char *dirPath)
                         if (result == NULL)
                         {
                             printf("Aucun animal de ce type d'age.\n");
-                            getchar(); // Attendre une touche
+                            getchar(); 
                             break;
                         }
                         printAnimals(result, resultCount);
-                        free(result); // Libérer la mémoire allouée pour le résultat
-                        getchar(); // Attendre une touche
+                        free(result); 
+                        getchar(); 
                     }
                     else
                     {
                         printf("Choix invalide.\n");
-                        getchar(); // Attendre une touche
+                        getchar(); 
                     }
 
                 }
                 else
                 {
                     printf("Choix invalide.\n");
-                    getchar(); // Attendre une touche
+                    getchar();
                 }
                 break;
             case 5:
@@ -200,7 +200,7 @@ void menu(char *dirPath)
                 break;
         }
         printf("Appuyez sur Entrée pour continuer...\n");
-        getchar(); // Attendre une touche
+        getchar(); 
     }
 
 
