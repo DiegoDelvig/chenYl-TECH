@@ -67,7 +67,6 @@ void menu(char *dirPath)
                 }
 
                 animalCount = addAnimal(dirPath, &animals, animalCount);  
-                getchar(); // Attendre une touche
                 break;
             case 3:
                 clear_screen();
@@ -78,7 +77,6 @@ void menu(char *dirPath)
                     break;
                 }
                 animalCount = removeAnimal(dirPath, &animals, animalCount);  
-                getchar(); // Attendre une touche
                 break;
             case 4:
                 clear_screen();

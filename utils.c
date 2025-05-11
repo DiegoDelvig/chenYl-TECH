@@ -7,7 +7,7 @@
 #include "utils.h"
 #include "animal.h"
 
-Animal *sortById(Animal *animals, int animalCount) //trie les animaux par leur id avec l'algorithme de tri à bulles
+Animal *sortById(Animal *animals, int animalCount)
 {
     Animal *sortedAnimals = malloc(animalCount * sizeof(Animal));
     if (sortedAnimals == NULL)
@@ -21,22 +21,22 @@ Animal *sortById(Animal *animals, int animalCount) //trie les animaux par leur i
         sortedAnimals[i] = animals[i];
     }
 
-    for (int i = 0; i < animalCount - 1; i++) 
+    for (int i = 0; i < animalCount - 1; i++)
     {
         for (int j = 0; j < animalCount - i - 1; j++)
         {
             if (sortedAnimals[j].id > sortedAnimals[j + 1].id)
             {
-                Animal temp = sortedAnimals[j]; 
+                Animal temp = sortedAnimals[j];
                 sortedAnimals[j] = sortedAnimals[j + 1];
                 sortedAnimals[j + 1] = temp;
             }
         }
     }
-    return sortedAnimals; 
+    return sortedAnimals;
 }
 
-char* strlwr(char* str) //convertit une chaîne de caractères en minuscules
+char* strlwr(char* str) 
 {
     for(char *p = str; *p; p++) 
     {
@@ -45,18 +45,18 @@ char* strlwr(char* str) //convertit une chaîne de caractères en minuscules
     return str;
 }
 
-void clear_screen() //efface l'écran en fonction du système d'exploitation
+void clear_screen() 
 {
     #ifdef _WIN32
-        system("cls");    //windows
+        system("cls");    // Windows
     #else
-        system("clear"); //linux
+        system("clear");  // Linux/macOS
     #endif
 }
 
-void printAnimalsShorted(Animal *animals, int animalCount) //affiche la liste des animaux triés par id (id et nom)
+void printAnimalsShorted(Animal *animals, int animalCount)
 {
-    Animal *sortedAnimals = sortById(animals, animalCount); 
+    Animal *sortedAnimals = sortById(animals, animalCount);
     if (sortedAnimals == NULL)
     {
         printf("Erreur lors du tri des animaux.\n");
@@ -69,41 +69,41 @@ void printAnimalsShorted(Animal *animals, int animalCount) //affiche la liste de
     }
 }
 
-void printAnimals(Animal *animals, int animalCount) //affiche tous les animaux
+void printAnimals(Animal *animals, int animalCount)
 {
     Animal *sortedAnimals = sortById(animals, animalCount);
     for (int i = 0; i < animalCount; i++)
     {
         printAnimal(sortedAnimals[i]);
-        printf("\n");
+        printf("\n"); 
     }
 }
 
-int getId(Animal *animals, int animalCount) //donne un id à un nouvel animal
+int getId(Animal *animals, int animalCount)
 {
-    Animal *sortedAnimals = sortById(animals, animalCount); 
+    Animal *sortedAnimals = sortById(animals, animalCount);
     if (sortedAnimals == NULL)
     {
         printf("Erreur lors du tri des animaux.\n");
         return -1;
     }
 
-    if (sortedAnimals[0].id != 1) 
+    if (sortedAnimals[0].id != 1)
     {
         return 1;
     }
     
     for (int i = 0; i < animalCount - 1; i++)
     {
-        if (sortedAnimals[i + 1].id != sortedAnimals[i].id + 1) 
+        if (sortedAnimals[i + 1].id != sortedAnimals[i].id + 1)
         {
-            return sortedAnimals[i].id + 1;  
+            return sortedAnimals[i].id + 1;
         }
     }
-    return sortedAnimals[animalCount - 1].id + 1; 
+    return sortedAnimals[animalCount - 1].id + 1;
 }
 
-int countFiles(char *dirPath) //compte le nombre de fichiers
+int countFiles(char *dirPath)
 {
     int count = 0;
     struct dirent *entry;
@@ -115,32 +115,32 @@ int countFiles(char *dirPath) //compte le nombre de fichiers
         return 0;
     }
 
-    while ((entry = readdir(dir)) != NULL) 
+    while ((entry = readdir(dir)) != NULL)
     {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
             continue;
         count++;
     }
-    closedir(dir); 
+    closedir(dir);
     return count;
 }
 
 
-void trimWhitespace(char *str) //supprime les espaces d'une chaîne de caractères
+void trimWhitespace(char *str) 
 {
     char *end;
 
-    while (isspace((unsigned char)*str)) str++; 
+    while (isspace((unsigned char)*str)) str++;
 
     if (*str == 0) return; 
 
-    end = str + strlen(str) - 1; 
-    while (end > str && isspace((unsigned char)*end)) end--; 
+    end = str + strlen(str) - 1;
+    while (end > str && isspace((unsigned char)*end)) end--;
 
-    *(end + 1) = '\0'; 
+    *(end + 1) = '\0';
 }
 
-void printAnimal(Animal animal) //affiche les détails de l'animal.
+void printAnimal(Animal animal)
 {
     printf("id: %d \n", animal.id);
     printf("name: %s \n", animal.name);
