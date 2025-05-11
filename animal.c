@@ -104,7 +104,8 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount) //fonction qui 
 
     char filePath[1024];
     snprintf(filePath, sizeof(filePath), "%s/%d.txt", dirPath, id);
-    
+
+    // Creation du fichier avec le nouvel animal
     FILE *file = fopen(filePath, "w");
     if (file) 
     {
