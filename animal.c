@@ -9,8 +9,14 @@
 int removeAnimal(char *dirPath, Animal **panimals, int animalCount)
 {
     int id;
-    printf("Entrez l'id de l'animal à supprimer: ");
+    printf("Entrez l'id de l'animal à supprimer (0 pour quitter): ");
     scanf("%d", &id);
+
+    if (id == 0)
+    {
+        printf("Suppression annulée.\n");
+        return animalCount;
+    }
 
     char filePath[1024];
     snprintf(filePath, sizeof(filePath), "%s%d.txt", dirPath, id);
@@ -42,19 +48,32 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
     int id = getId(*panimals, animalCount);
     printf("id: %d \n", id);
     char name[256];
-    printf("Entrez le nom: ");
+    printf("Entrez le nom (Mettre rien pour annuler): ");
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = '\0'; // Supprime le \n en fin de chaîne
     strlwr(name);
 
+    if (name[0] == '\0')
+    {
+        printf("Anullation de l'ajout.\n");
+        return animalCount;
+    }
+
     int speciesChoice;
     do {
-        printf("Choisissez l'espèce:\n");
+        printf("Choisissez l'espèce (0 pour annuler):\n");
         printf("1. Chien\n");
         printf("2. Chat\n");
         printf("3. Hamster\n");
         printf("4. Autruche\n");
         scanf("%d", &speciesChoice);
+        
+        if (speciesChoice == 0)
+        {
+            printf("Anullation de l'ajout.\n");
+            return animalCount;
+        }
+    
     } while (speciesChoice < 1 || speciesChoice > 4);
     
     char species[256];
@@ -75,11 +94,16 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
     }
 
     int birthDate;
-    printf("Entrez l'année de naissance: ");
+    printf("Entrez l'année de naissance (0 pour annuler): ");
     scanf("%d", &birthDate);  
     if (birthDate < 1950 || birthDate > 2025)
     {
         do {
+            if (birthDate == 0)
+            {
+                printf("Anullation de l'ajout.\n");
+                return animalCount;
+            }
             printf("Choisir une année entre 1950 et 2025: ");
             scanf("%d", &birthDate);    
         } while (birthDate < 1950 || birthDate > 2025);
@@ -87,10 +111,17 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
 
     
     float weight;
+    printf("Choisir un poid entre 0.1 et 150.0 (0 pour annuler): ");
+    scanf("%f", &weight);
     if (weight < 0.1 || weight > 150.0)
     {
         do {
-            printf("Choisir un poid entre 0.1 et 150.0: ");
+            if (weight == 0)
+            {
+                printf("Anullation de l'ajout.\n");
+                return animalCount;
+            }
+            printf("Choisir un poid entre 0.1 et 150.0 (0 pour annuler): ");
             scanf("%f", &weight);    
         } while (weight < 0.05 || weight > 150.0);
     }
@@ -99,9 +130,15 @@ int addAnimal(char *dirPath, Animal **panimals, int animalCount)
     getchar();
 
     char comment[256];
-    printf("Entrez le commentaire: ");
+    printf("Entrez le commentaire (Mettre rien pour annuler): ");
     fgets(comment, sizeof(comment), stdin);
     comment[strcspn(comment, "\n")] = '\0';
+
+    if (comment[0] == '\0')
+    {
+        printf("Anullation de l'ajout.\n");
+        return animalCount;
+    }
 
     char filePath[1024];
     snprintf(filePath, sizeof(filePath), "%s/%d.txt", dirPath, id);

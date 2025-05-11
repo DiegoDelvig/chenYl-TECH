@@ -1,11 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include <string.h>
 
-#include "utils.h"
-#include "animal.h"
-#include "search.h"
 #include "display.h"
 
 #define DIRPATH "animals/"
