@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "animal.h"
 
-Animal *sortedByAge(Animal *animals, int animalCount)
+Animal *sortedByAge(Animal *animals, int animalCount) //fonction qui permet de trier un tableau d'animaux par âge croissant
 {
     Animal *sortedAnimals = malloc(animalCount * sizeof(Animal));
     if (sortedAnimals == NULL)
@@ -34,7 +34,7 @@ Animal *sortedByAge(Animal *animals, int animalCount)
     return sortedAnimals;
 }
 
-void INV_AGE_ASC(Animal *animals, int animalCount)
+void INV_AGE_ASC(Animal *animals, int animalCount) //affiche les animaux triés par âge
 {
     Animal *sortedAnimals = sortedByAge(animals, animalCount);
     if (sortedAnimals == NULL)
@@ -72,9 +72,9 @@ void INV_AGE_ASC(Animal *animals, int animalCount)
     free(sortedAnimals);
 }
 
-void DAY_CLEAN(Animal *animals, int animalCount)
+void DAY_CLEAN(Animal *animals, int animalCount) //calcule le temps total de nettoyage des cages en minutes/semaine
 {
-    int minutes = 0; // Temps en minutes
+    int minutes = 0;
     for (int i = 0; i < 50; i++)
     {
         if (animalCount > i)
