@@ -1,28 +1,17 @@
-# Nom de l'exécutable final
-EXEC = projet
+#Programme à créer
+PROG = projet
 
-# Compilateur
-CC = gcc
+#Sources
+SRC = *.c
 
-#Options de compilation
-CFLAGS = -Wall -Wextra -std=c99
+#Regle par defaut
+all: $(PROG)
+	./$(PROG)
 
-# Fichiers source
-SRC = *c
+#compilation
+$(PROG): $(SRC)
+	gcc -o $(PROG) $(SRC)
 
-# Fichiers d'objets (automatiquement déduits)
-OBJ = $(SRC:.c=.o)
-
-# Règle principale
-all: $(EXEC)
-
-# Génération de l'exécutable
-$(EXEC): $(OBJ)
-    $(CC) $(CFLAGS) -o $(EXEC) $(OBJ)
-
-# Nettoyage des fichiers objects et de l'exécutable
-clean:
-    rm -f $(EXEC) $(OBJ)
-
-# Recompilation compète
-rebuild: clean all
+#Nettoyage
+clean : 
+	rm -f $(PROG)
