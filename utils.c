@@ -7,7 +7,7 @@
 #include "utils.h"
 #include "animal.h"
 
-Animal *sortById(Animal *animals, int animalCount)
+Animal *sortById(Animal *animals, int animalCount) //trie les animaux par leur id, ordre croissant
 {
     Animal *sortedAnimals = malloc(animalCount * sizeof(Animal));
     if (sortedAnimals == NULL)
@@ -36,7 +36,7 @@ Animal *sortById(Animal *animals, int animalCount)
     return sortedAnimals;
 }
 
-char* strlwr(char* str) 
+char* strlwr(char* str) //convertit tous les caractères de la chaîne en minuscules
 {
     for(char *p = str; *p; p++) 
     {
@@ -45,7 +45,7 @@ char* strlwr(char* str)
     return str;
 }
 
-void clear_screen() 
+void clear_screen() //vide le tetminal
 {
     #ifdef _WIN32
         system("cls");    // Windows
@@ -54,7 +54,7 @@ void clear_screen()
     #endif
 }
 
-void printAnimalsShorted(Animal *animals, int animalCount)
+void printAnimalsShorted(Animal *animals, int animalCount) //affiche l'id et le jom de l'animal
 {
     Animal *sortedAnimals = sortById(animals, animalCount);
     if (sortedAnimals == NULL)
@@ -69,7 +69,7 @@ void printAnimalsShorted(Animal *animals, int animalCount)
     }
 }
 
-void printAnimals(Animal *animals, int animalCount)
+void printAnimals(Animal *animals, int animalCount) //affiche tous les information de l'animal
 {
     Animal *sortedAnimals = sortById(animals, animalCount);
     for (int i = 0; i < animalCount; i++)
@@ -79,7 +79,7 @@ void printAnimals(Animal *animals, int animalCount)
     }
 }
 
-int getId(Animal *animals, int animalCount)
+int getId(Animal *animals, int animalCount) //cherche le plus petit id disponible
 {
     Animal *sortedAnimals = sortById(animals, animalCount);
     if (sortedAnimals == NULL)
@@ -103,7 +103,7 @@ int getId(Animal *animals, int animalCount)
     return sortedAnimals[animalCount - 1].id + 1;
 }
 
-int countFiles(char *dirPath)
+int countFiles(char *dirPath) //compte le nombre de fichiers dans le dossier
 {
     int count = 0;
     struct dirent *entry;
@@ -126,7 +126,7 @@ int countFiles(char *dirPath)
 }
 
 
-void trimWhitespace(char *str) 
+void trimWhitespace(char *str) //supprime les espaces au début et à la fin d’une chaîne
 {
     char *end;
 
