@@ -12,7 +12,7 @@
 * 3. Le type d'age: rechercher un animal jeune (<= 2 ans, ou sénior >= 10 ans)
 */
 
-Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int ageType)
+Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int ageType) //recherche les animaux en fonction de leur âge
 {
     int count = 0;
     for (int i = 0; i < animalCount; i++)
@@ -76,7 +76,7 @@ Animal *searchByAge(Animal *animals, int animalCount, int *presultCount, int age
 
 }
 
-Animal *searchBySpecies(Animal *animals, int animalCount, int *presultCount, char *species)
+Animal *searchBySpecies(Animal *animals, int animalCount, int *presultCount, char *species) //recherche les animaux en fonction de leur espèce
 {
     int count = 0;
 
@@ -115,7 +115,7 @@ Animal *searchBySpecies(Animal *animals, int animalCount, int *presultCount, cha
 
 }
 
-Animal *searchByName(Animal *animals, int animalCount, int *presultCount, char *name)
+Animal *searchByName(Animal *animals, int animalCount, int *presultCount, char *name) //recherche les animaux en fonction de leur nom
 {
     int count = 0;
     strlwr(name);
