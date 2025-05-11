@@ -21,7 +21,7 @@ void printLogo()
 void menu(char *dirPath) //affiche le menu
 { 
 
-    int animalCount = countFiles(dirPath);
+    int animalCount = countFiles(dirPath); // Compte le nombre d'animaux dans le dossier /animals
     Animal *animals = getEachAnimals(dirPath, animalCount);
     if (animals == NULL)
     {
@@ -203,5 +203,5 @@ void menu(char *dirPath) //affiche le menu
         getchar(); 
     }
 
-
+    free(animals);
 }
