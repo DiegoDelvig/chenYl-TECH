@@ -41,22 +41,7 @@ make clean
 
 ## 🚀 Lancement
 
-Après la compilation, lancez le programme avec :
-
-```bash
-./main
-```
-
-Assurez-vous que le dossier `animals/` existe et contient au moins un fichier animal au format suivant :
-
-```
-<id>
-<nom>
-<espèce>
-<année de naissance>
-<poids>
-<commentaire>
-```
+Assurez-vous que le dossier `animals/`
 
 ---
 
